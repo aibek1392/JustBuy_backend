@@ -1,0 +1,23 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|Lato|PT+Sans);
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+section {
+  margin: auto;
+  max-width: 250px;
+}
+form input {
+  display: block;
+  margin-bottom: 10px;
+}
+
