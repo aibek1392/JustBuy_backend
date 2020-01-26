@@ -9,6 +9,16 @@ class ItemsController < ApplicationController
 #     end
 #   end
 
+
+	def create
+		@item = Item.create(item_params)
+			render json: {errors: @item.errors.full_messages}, status: 401
+			# render json: ItemSerializer.new(@items).serialized_json, include: "**"
+
+		
+	end
+
+
 	def index
 		@items = Item.all
 		render json: ItemSerializer.new(@items).serialized_json, include: "**"
@@ -17,6 +27,12 @@ class ItemsController < ApplicationController
 	def show
 		@item = Item.find(params[:id])
 		render json: ItemSerializer.new(@item).serialized_json, include: "**"
+	end
+
+	private 
+
+	def item_params
+		params.permit(:img_url, :name, :description, :quantity, :price, :category)
 	end
 
 end
