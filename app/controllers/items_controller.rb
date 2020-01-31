@@ -10,29 +10,41 @@ class ItemsController < ApplicationController
 #   end
 
 
-	def create
-		@item = Item.create(item_params)
-			render json: {errors: @item.errors.full_messages}, status: 401
-			# render json: ItemSerializer.new(@items).serialized_json, include: "**"
+	def update
+		@item = Item.find(params[:id])
 
-		
+		@item.update(item_params)
+
+		render json: @item
 	end
+
+
+	def create
+		item = Item.create(item_params)
+		if item.valid?
+			render json: item	
+			else
+		  render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
+		end
+	  end
 
 
 	def index
 		@items = Item.all
-		render json: ItemSerializer.new(@items).serialized_json, include: "**"
+		render json: @items, include: "**"
+
+		# render json: ItemSerializer.new(@items).serialized_json, include: "**"
 	end
 
 	def show
 		@item = Item.find(params[:id])
-		render json: ItemSerializer.new(@item).serialized_json, include: "**"
+		render json: @item, include: "**"
 	end
 
 	private 
 
 	def item_params
-		params.permit(:img_url, :name, :description, :quantity, :price, :category)
+		params.permit(:img_url, :name, :description, :quantity, :price, :category, :item, :information)
 	end
 
 end
