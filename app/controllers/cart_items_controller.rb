@@ -7,17 +7,15 @@ class CartItemsController < ApplicationController
 	end
 
 	def show
-		@cart_item = CartItem.find(params[:id])
-		# .order(id: :desc)
-
-		render json: @cart_item
+		@cart_item = CartItem.find_by(id: params[:id])
+		render json: CartItemsSerializer.new(@cart_item).serialized_json, include: "**"
 	end
 
 	def create
 		@cart = CartItem.create(cart_item_params)
 
 		if @cart.valid?
-			render json: @cart
+			render json: CartItemsSerializer.new(@cart).serialized_json, include: "**"
 		else
 			render json: {errors: @cart.errors.full_messages}, status: 401
 		end
